@@ -68,10 +68,10 @@ class Corpus(object):
         self.tokens = list()
 
         # tokenize text
-        with smart_open.file_smart_open(self.document) as text:
+        with smart_open.open(self.document, encoding='utf-8') as text:
             for line in text:
-                self.tokens.append([re.sub('[^a-zA-Z0-9]', '', i) for i in line.lower().split()
-                                    if re.sub('[^a-zA-Z0-9]', '', i) not in stoplist])
+                self.tokens.append([re.sub(r'[^a-zA-Z0-9]', r'', i) for i in line.lower().split()
+                                    if re.sub(r'[^a-zA-Z0-9]', r'', i) not in stoplist])
 
         self.dictionary = corpora.Dictionary(self.tokens)
         self.dictionary.filter_extremes(no_below=2, no_above=100)  # filters out words that appear rarely or too often

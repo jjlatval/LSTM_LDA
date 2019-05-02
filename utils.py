@@ -9,7 +9,7 @@ def softmax(x):
 def save_model_parameters_theano(outfile, model):
     U, V, W = model.U.get_value(), model.V.get_value(), model.W.get_value()
     np.savez(outfile, U=U, V=V, W=W)
-    print "Saved model parameters to %s." % outfile
+    print("Saved model parameters to %s." % outfile)
 
 
 def load_model_parameters_theano(path, model):
@@ -20,4 +20,4 @@ def load_model_parameters_theano(path, model):
     model.U.set_value(U)
     model.V.set_value(V)
     model.W.set_value(W)
-    print "Loaded model parameters from %s. hidden_dim=%d word_dim=%d" % (path, U.shape[1], V.shape[0])
+    print("Loaded model parameters from %s. hidden_dim=%d word_dim=%d" % (path, U.shape[1], V.shape[0]))

@@ -15,7 +15,7 @@ import random
 VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '4000'))
 HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '128'))
 LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.005'))
-NEPOCH = int(os.environ.get('NEPOCH', '1001'))
+NEPOCH = int(os.environ.get('NEPOCH', '10'))
 
 FILE = './data/alice.txt'
 MODEL_FILE = './trained_network_128_dim/alice-lstm-epoch99.npz'
@@ -189,26 +189,26 @@ class LSTModel:
     def __init__(self, use_lda=False):
 
         # Read the data
-        print "Reading data file..."
+        print("Reading data file...")
 
-        self.file = smart_open.file_smart_open(FILE, 'rb')
+        self.file = smart_open.open(FILE, 'rb')
         self.text = self.file.read().lower().decode('utf-8', errors='ignore')
         self.sentences = nltk.sent_tokenize(self.text)
 
         # Append SENTENCE_START and SENTENCE_END
         self.sentences = ["%s %s %s" % (sentence_start_token, x, sentence_end_token) for x in self.sentences]
-        print "Parsed %d sentences." % (len(self.sentences))
+        print("Parsed %d sentences." % (len(self.sentences)))
 
         self.sentences = [re.sub('[.!?\r\n,:;]', '', sent) for sent in self.sentences]
 
-        print "Tokenizing sentences..."
+        print("Tokenizing sentences...")
         # Tokenize the sentences into words
         self.tokenized_sentences = [nltk.word_tokenize(sent) for sent in self.sentences]
 
         # Count the word frequencies
         self.word_freq = nltk.FreqDist(itertools.chain(*self.tokenized_sentences))
 
-        print "Found %d unique words tokens." % len(self.word_freq.items())
+        print("Found %d unique words tokens." % len(self.word_freq.items()))
 
         # Get the most common words and build index_to_word and word_to_index vectors
         self.vocab = self.word_freq.most_common(vocabulary_size-1)
@@ -216,9 +216,9 @@ class LSTModel:
         self.index_to_word.append(unknown_token)
         self.word_to_index = dict([(w, i) for i, w in enumerate(self.index_to_word)])
 
-        print "Using vocabulary size %d." % vocabulary_size
-        print "The least frequent word in our vocabulary is '%s' and appeared %d times."\
-              % (self.vocab[-1][0], self.vocab[-1][1])
+        print("Using vocabulary size %d." % vocabulary_size)
+        print("The least frequent word in our vocabulary is '%s' and appeared %d times."\
+              % (self.vocab[-1][0], self.vocab[-1][1]))
 
         # Replace all words not in our vocabulary with the unknown token
         for i, sent in enumerate(self.tokenized_sentences):
@@ -242,7 +242,7 @@ class LSTModel:
                 transf=transformations, transf_parameters=transformation_parameters)
 
             # Map context vector of given topic with dictionary:
-            print "Creating topic matrix..."
+            print("Creating topic matrix...")
             topic_wordid_matrix = np.zeros((n_topics, VOCABULARY_SIZE))
             topic_wordid_matrix.fill(0.000001)  # Introduce a small value to avoid zero probabilities
 
@@ -257,7 +257,7 @@ class LSTModel:
                 for wordid in range(0, len(word_ids)):
                     if wordid and word_ids[wordid][0]:
                         topic_wordid_matrix[int(topic), int(word_ids[wordid][0])] = word_ids[wordid][1]
-            print "Topic matrix successfully created!"
+            print("Topic matrix successfully created!")
             self.topic_wordid_matrix = topic_wordid_matrix
 
             # Load core model with LDA
@@ -271,21 +271,21 @@ class LSTModel:
         # Keep track on losses
         losses = []
         num_examples_seen = 0
-        print "Beginning network training..."
+        print("Beginning network training...")
         for epoch in range(nepoch):
-            print "Epoch #%s" % epoch
+            print("Epoch #%s" % epoch)
             # Optionally evaluate the loss
             if (epoch % evaluate_loss_after == 0):
                 loss = self.core_model.calculate_loss(self.X_train, self.y_train)
                 losses.append((num_examples_seen, loss))
                 time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 
-                print "%s: Loss after num_examples_seen=%d epoch=%d: %f" \
-                      % (time, num_examples_seen, epoch, loss)
+                print("%s: Loss after num_examples_seen=%d epoch=%d: %f" \
+                      % (time, num_examples_seen, epoch, loss))
                 # Adjust the learning rate if loss increases
                 if (len(losses) > 1 and losses[-1][1] > losses[-2][1]):
                     learning_rate = learning_rate * 0.5
-                    print "Setting learning rate to %f" % learning_rate
+                    print("Setting learning rate to %f" % learning_rate)
                 sys.stdout.flush()
 
                 # Saving model parameters
@@ -293,7 +293,7 @@ class LSTModel:
                                              % (FILE.split("/")[-1].split(".")[-2], epoch),
                                              self.core_model)
             # For each training example...
-            print "Training model..."
+            print("Training model...")
             for i in tqdm(range(len(self.y_train))):  # Also prints a progress bar
                 # One SGD step
                 self.core_model.sgd_step(self.X_train[i], self.y_train[i], learning_rate)
