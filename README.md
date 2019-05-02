@@ -1,26 +1,25 @@
+NOTE: this is an old repository with bad code
 
-#### Setup virtual environment
+### Requirements
+- Ubuntu 16.04 LTS, MacOS High Sierra or newer
+- Python 3.6+
 
-Clone the repository to your computer and create a virtual environment
 
-$ git clone https://github.com/jjlatval/LSTM_LDA.git
-$ cd LSTM_LDA
-$ virtualenv venv
-$ source venv/bin/activate
-
-### Install requirements
-
-In virtualenv run:
-$ pip install -r requirements.txt
+### How to setup
+1. Setup virtualenvironment: `virtualenv venv -p python3`
+2. Activate venv: `source venv/bin/activate`
+3. Install requirements: `pip install -r requirements.txt`
 
 ### How to run LSTM + LDA
 
-1) Adjust n_topics and n_cpu_cores to your liking in topic_modelling.py
-2) Calculate LDA beta matrix by running calculate_lda.py
-3) Adjust network parameters (vocabulary_size, hidden_dim, learning_rate & nepoch) in lstm_model.py
-4) Train network weights by running train_lstm.py
-5) Generate output text by using the trained network in lstm_output.py
-6) Run analytics on generated text by running analytics.py
+1. Calculate LDA beta matrix: `python calculate_lda.py`
+2. Train network: `python train_lstm.py`
+3. Generate output text: `python lstm_output.py`
+4. Run analytics on generated text: `python analytics.py`
+
+You can adjust n_topics and n_cpu_cores in `topic_modelling.py`.
+
+Network parameters (vocabulary_size, hidden_dim, learning_rate, nepoch) can be adjusted in `lstm_model.py`
 
 ### Known issues
 

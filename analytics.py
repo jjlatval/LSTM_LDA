@@ -8,16 +8,16 @@ sent_detector = nltk.data.load('tokenizers/punkt/english.pickle')
 
 # Load original text
 orig_file = './data/alice.txt'
-orig_text = smart_open.file_smart_open(orig_file, 'rb').read().decode('utf-8').lower()
+orig_text = smart_open.open(orig_file, 'rb').read().decode('utf-8').lower()
 
 # Create tokens from original text file
 tokens = nltk.word_tokenize(orig_text)
 
-text1 = smart_open.file_smart_open('./output/alice_dim=128_gamma=0.05.txt', 'rb').read().decode('utf-8').lower()
-text2 = smart_open.file_smart_open('./output/alice_dim=128_gamma=0.20.txt', 'rb').read().decode('utf-8').lower()
-text3 = smart_open.file_smart_open('./output/alice_dim=128_gamma=0.50.txt', 'rb').read().decode('utf-8').lower()
-text4 = smart_open.file_smart_open('./output/alice_dim=128_gamma=0.95.txt', 'rb').read().decode('utf-8').lower()
-text5 = smart_open.file_smart_open('./output/alice_dim=128_gamma=0.90_topic=10.txt', 'rb').read().decode('utf-8').lower()
+text1 = smart_open.open('./output/alice_dim=128_gamma=0.05.txt', 'rb').read().decode('utf-8').lower()
+text2 = smart_open.open('./output/alice_dim=128_gamma=0.20.txt', 'rb').read().decode('utf-8').lower()
+text3 = smart_open.open('./output/alice_dim=128_gamma=0.50.txt', 'rb').read().decode('utf-8').lower()
+text4 = smart_open.open('./output/alice_dim=128_gamma=0.95.txt', 'rb').read().decode('utf-8').lower()
+text5 = smart_open.open('./output/alice_dim=128_gamma=0.90_topic=10.txt', 'rb').read().decode('utf-8').lower()
 
 
 #  Construct the unigram language model
@@ -57,9 +57,9 @@ def compute_perplexity(fulltext=None):
     return None
 
 model = unigram(tokens)
-print compute_perplexity(fulltext=orig_text)
-print compute_perplexity(fulltext=text1)
-print compute_perplexity(fulltext=text2)
-print compute_perplexity(fulltext=text3)
-print compute_perplexity(fulltext=text4)
-print compute_perplexity(fulltext=text5)
+print(compute_perplexity(fulltext=orig_text))
+print(compute_perplexity(fulltext=text1))
+print(compute_perplexity(fulltext=text2))
+print(compute_perplexity(fulltext=text3))
+print(compute_perplexity(fulltext=text4))
+print(compute_perplexity(fulltext=text5))
