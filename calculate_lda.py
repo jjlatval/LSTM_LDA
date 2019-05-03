@@ -1,4 +1,4 @@
-from topic_modelling import *
+from topic_modelling import Corpus, transformations, n_topics, n_cpu_cores
 
 # This file is used to create a beta matrix for LDA
 

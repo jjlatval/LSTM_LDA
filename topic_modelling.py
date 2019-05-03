@@ -11,7 +11,7 @@ DOCUMENT_NAME = 'alice.txt'
 DOCUMENT_PATH = './data/'
 # Do not rename calculated files!
 
-n_topics = 100
+n_topics = 10
 n_cpu_cores = 16
 
 dataset_specific_stoplist = " new bank year name time another three see general m. + s. p. part sq. . e. c. a. upon" \
@@ -28,14 +28,14 @@ dataset_specific_stoplist = " new bank year name time another three see general 
                             " ever get took gave little mock just rather shall quite looked looking began think tell" \
                             " long good might find back done way oh"
 
-transformations = ['lda']
+transformations = ['lsi']
 # transformations = ['tfidf', 'lsi', 'lda', 'hdp']
 transformation_parameters = {'tfidf': {'load': False, 'bzip2': True}, 'lsi': {'load': False, 'topics': n_topics},
-                             'lda': {'load': True, 'topics': n_topics, 'cpu_cores': n_cpu_cores}, 'hdp': {'load': False}}
+                             'lda': {'load': False, 'topics': n_topics, 'cpu_cores': n_cpu_cores}, 'hdp': {'load': False}}
 
 
 # Corpus contains basic functions for building and manipulating corpora, see comments for more detail
-class Corpus(object):
+class Corpus:
     def __init__(self, corpus_format='mm', override_dictionary=False, override_corpus=False, transf=transformations,
                  transf_parameters=transformation_parameters, document_name=DOCUMENT_PATH+DOCUMENT_NAME):
         if transf is None:  # tests dictionary contains desired tests and their corresponding parameters
@@ -155,7 +155,7 @@ class Corpus(object):
                 if params.get('load', None) is False:
                     self.lda = self.calculate_lda(params=params)
                 else:
-                   self.lda = self.load_calculated_lda()
+                    self.lda = self.load_calculated_lda()
             if t == 'hdp':
                 if params.get('load', None) is False:
                     self.hdp = self.calculate_hdp()
