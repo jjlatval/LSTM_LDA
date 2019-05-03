@@ -1,4 +1,4 @@
-NOTE: this is an old repository with bad code
+NOTE: this is an old repository with bad code from years ago. Do not use anything as an example.
 
 ### Requirements
 - Ubuntu 16.04 LTS, MacOS High Sierra or newer
@@ -23,4 +23,5 @@ Network parameters (vocabulary_size, hidden_dim, learning_rate, nepoch) can be a
 
 ### Known issues
 
-lstm_model gets stuck sometimes in the forward propagation step for an unknown reason
+If the network is severely under/overfit, it will not encounter a `SENTENCE_END` token. This makes `lstm_output.py` hang. Please train a network with preferably at least 100 epochs.
+

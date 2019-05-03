@@ -13,7 +13,7 @@ def save_model_parameters_theano(outfile, model):
 
 
 def load_model_parameters_theano(path, model):
-    npzfile = np.load(path)
+    npzfile = np.load(path, allow_pickle=True)
     U, V, W = npzfile["U"], npzfile["V"], npzfile["W"]
     model.hidden_dim = U.shape[1]
     model.word_dim = V.shape[0]

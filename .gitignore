@@ -11,3 +11,5 @@ venv/
 *.id2word
 *.state
 *.tfidf
+*.npz
+output/*.txt

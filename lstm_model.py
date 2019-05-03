@@ -15,10 +15,9 @@ import random
 VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '4000'))
 HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '128'))
 LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.005'))
-NEPOCH = int(os.environ.get('NEPOCH', '10'))
+NEPOCH = int(os.environ.get('NEPOCH', '101'))
 
 FILE = './data/alice.txt'
-MODEL_FILE = './trained_network_128_dim/alice-lstm-epoch99.npz'
 
 vocabulary_size = VOCABULARY_SIZE
 unknown_token = "UNKNOWN_TOKEN"
@@ -102,7 +101,7 @@ class LSTMTheano:
 
         def forward_prop_step(x_t, s_t1_prev, f_t1_prev):
             # Word embedding layer
-            x_e = E[:,x_t]
+            x_e = E[:, x_t]
 
             # Contextual computations
             f_t1 = 1 / np.random.normal() * (f_t1_prev ** gamma) * t ** (1 - gamma)  # Note, f & t are normalized,
@@ -174,7 +173,7 @@ class LSTMTheano:
                      (self.mV, mV),
                      (self.mb, mb),
                      (self.mc, mc)
-                    ])
+                     ])
 
     def calculate_total_loss(self, X, Y):
         return np.sum([self.ce_error(x,y) for x, y in zip(X,Y)])
