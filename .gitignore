@@ -1,2 +1,13 @@
 venv/
 *.pyc
+.idea/
+*.lda
+*.mm
+*.index
+*.lsi
+*.projection
+*.hdp
+*.npy
+*.id2word
+*.state
+*.tfidf

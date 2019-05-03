@@ -28,7 +28,7 @@ dataset_specific_stoplist = " new bank year name time another three see general 
                             " ever get took gave little mock just rather shall quite looked looking began think tell" \
                             " long good might find back done way oh"
 
-transformations = ['lsi']
+transformations = ['lsi', 'tfidf', 'lda', 'hdp']
 # transformations = ['tfidf', 'lsi', 'lda', 'hdp']
 transformation_parameters = {'tfidf': {'load': False, 'bzip2': True}, 'lsi': {'load': False, 'topics': n_topics},
                              'lda': {'load': False, 'topics': n_topics, 'cpu_cores': n_cpu_cores}, 'hdp': {'load': False}}
@@ -173,9 +173,7 @@ class Corpus:
 
     # Latent Semantic Indexing
     def calculate_lsi(self, params):
-        if self.tfidf is None:
-            self.tfidf = self.tfidf()
-        lsi = models.LsiModel(self.tfidf[self], id2word=self.dictionary, num_topics=params.get('topics', n_topics))
+        lsi = models.LsiModel(self, id2word=self.dictionary, num_topics=params.get('topics', n_topics))
         lsi.save(DOCUMENT_PATH + self.filename + '.lsi')
         return lsi
 
